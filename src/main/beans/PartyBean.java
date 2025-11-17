@@ -25,6 +25,8 @@ public class PartyBean {
         round++;
     }
 
+
+
     public PlayerBean getJ1() {
         return j1;
     }
