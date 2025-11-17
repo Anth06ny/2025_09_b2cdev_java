@@ -3,7 +3,7 @@ package main.beans;
 public class PartyBean {
 
     private PlayerBean j1, j2, currentPlayer;
-    private int round = 0;
+    private int round = 1;
 
 
     public PartyBean(String nameJ1, String nameJ2) {

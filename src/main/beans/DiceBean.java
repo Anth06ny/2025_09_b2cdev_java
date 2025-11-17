@@ -7,7 +7,7 @@ public class DiceBean {
     private int value;
 
     public void roll(){
-        value = new Random().nextInt(5)+1 ;
+        value = new Random().nextInt(5)+5 ;
     }
 
     public int getValue() {

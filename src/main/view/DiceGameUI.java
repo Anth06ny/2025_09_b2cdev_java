@@ -66,21 +66,80 @@ public class DiceGameUI extends JPanel {
             //Modification des données
             pb.getJ1().roll();
             if (pb.getJ1().getCupBean().getScoreDices() >= 7) {
-                pb.getJ2().add1point();
+                pb.getJ1().add1point();
             }
 
             //Mise à jour graphique
             jtfD1.setText(pb.getJ1().getCupBean().getD1().getValue() + "");
             jtfD2.setText(pb.getJ1().getCupBean().getD2().getValue() + "");
             jtfScoreP1.setText(pb.getJ1().getScore() + "");
+
+            jbRollP1.setVisible(false);
+            jbRollP2.setVisible(true);
+
         });
 
 
         jbRollP2 = new JButton("Lancer");
+        jbRollP2.addActionListener((ae) -> {
+
+            //Modification des données
+            pb.getJ2().roll();
+            if (pb.getJ2().getCupBean().getScoreDices() >= 7) {
+                pb.getJ2().add1point();
+            }
+            pb.add1round();
+
+            //Mise à jour graphique
+            jtfD1.setText(pb.getJ2().getCupBean().getD1().getValue() + "");
+            jtfD2.setText(pb.getJ2().getCupBean().getD2().getValue() + "");
+            jtfScoreP2.setText(pb.getJ2().getScore() + "");
+
+            jlTourNumber.setText(pb.getRound() + "");
+
+            jbRollP1.setVisible(true);
+            jbRollP2.setVisible(false);
+
+            //Condition de fin de partie
+            if(pb.getRound() == 3) {
+                jbRollP1.setVisible(false);
+                jbRollP2.setVisible(false);
+                jbRestart.setVisible(true);
+                if(pb.winner() != null) {
+                    jlMessage.setText(pb.winner().getName() + " a gagné");
+                }
+                else {
+                    jlMessage.setText("Egalité");
+                }
+            }
+
+        });
+
         jbRestart = new JButton("Restart");
+        jbRestart.addActionListener((ae) -> {
+
+            //Modification des données
+            pb = new PartyBean(pb.getJ1().getName(), pb.getJ2().getName());
+
+            //Mise à jour graphique
+            jtfD1.setText(pb.getJ2().getCupBean().getD1().getValue() + "");
+            jtfD2.setText(pb.getJ2().getCupBean().getD2().getValue() + "");
+            jtfScoreP2.setText(pb.getJ2().getScore() + "");
+            jtfScoreP1.setText(pb.getJ1().getScore() + "");
+
+            jlTourNumber.setText(pb.getRound() + "");
+
+            jbRollP1.setVisible(true);
+            jbRollP2.setVisible(false);
+            jbRestart.setVisible(false);
+
+            jlMessage.setText("");
+
+        });
+
         jcbP1 = new JCheckBox("Tricheur");
         jcbP2 = new JCheckBox("Tricheur");
-        jlMessage = new JLabel("Le joueur 1 a gagn\u00E9");
+        jlMessage = new JLabel("");
 
         //adjust size and set layout
         setPreferredSize(new Dimension(682, 403));
@@ -126,7 +185,22 @@ public class DiceGameUI extends JPanel {
         jcbP2.setBounds(470, 119, 97, 23);
         jlMessage.setBounds(0, 251, 586, 14);
 
+        //Etat de départ
+        jtfD1.setText("1");
+        jtfD2.setText("1");
+        jtfScoreP1.setText(pb.getJ1().getScore() + "");
+        jtfScoreP2.setText(pb.getJ2().getScore() + "");
+        jlTourNumber.setText(pb.getRound() + "");
+        jlP1.setText(pb.getJ1().getName());
+        jlP2.setText(pb.getJ2().getName());
+
+
+        jbRollP1.setVisible(true);
+        jbRollP2.setVisible(false);
+        jbRestart.setVisible(false);
+
     }
+
 
     /**
      * Launch the application.
